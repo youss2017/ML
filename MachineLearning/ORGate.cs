@@ -32,8 +32,6 @@ namespace MachineLearning
             return network;
         }
 
-        static float rand_float() { return Random.Shared.NextSingle(); }
-
         static float[][] train_data = new float[][]
             {
                 new float[] {0.0f, 0.0f, 0.0f, 1.0f},
@@ -48,11 +46,9 @@ namespace MachineLearning
 
         static float evaluate(float x1, float x2, float x3, float w1, float w2, float w3, float b)
         {
-            return sigmoid((x1 * w1) + (x2 * w2) + (x3 * w3) + b);
+            return NN.sigmoid((x1 * w1) + (x2 * w2) + (x3 * w3) + b);
         }
 
-        static float sigmoid(float x) { return 1.0f / (1.0f + (float)Math.Exp(-x)); }
-        static float relu(float x) { return Math.Max(0, x); }
 
         static float cost(float w1, float w2, float w3, float b)
         {
@@ -71,12 +67,12 @@ namespace MachineLearning
             return result;
         }
 
-        static void Main(string[] args)
+        static void ORMain(string[] args)
         {
-            float w1 = rand_float();
-            float w2 = rand_float();
-            float w3 = rand_float();
-            float b = rand_float();
+            float w1 = NN.rand_float();
+            float w2 = NN.rand_float();
+            float w3 = NN.rand_float();
+            float b = NN.rand_float();
             // b = w1 = w2 = 1.0f;
             
             float eps = 1e-3f;
