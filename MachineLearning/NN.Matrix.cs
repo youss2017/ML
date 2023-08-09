@@ -15,9 +15,32 @@ namespace MachineLearning
             data = new float[rows, columns];
         }
 
+        public static void Copy(Matrix dst, Matrix src)
+        {
+            if (dst.columns != src.columns) throw new InvalidOperationException("Mismatch detected.");
+            if (dst.rows != src.rows) throw new InvalidOperationException("Mismatch detected.");
+            for(int r = 0; r < src.rows; r++)
+            {
+                for(int c = 0; c < src.columns; c++)
+                {
+                    dst.data[r, c] = src.data[r, c];
+                }
+            }
+        }
+
+        public static Matrix Row(Matrix m, long row)
+        {
+            Matrix result = new Matrix(1, m.columns);
+            for(int i = 0; i < m.columns; i++)
+            {
+                result.data[0, i] = m.data[row, i];
+            }
+            return result;
+        }
+
         public void Identity()
         {
-            long k = (long)Math.Min(rows, columns);
+            long k = Math.Min(rows, columns);
             for (long i = 0; i < k; i++)
                 data[i, i] = 1.0f;
         }
@@ -40,6 +63,17 @@ namespace MachineLearning
                 for (long c = 0; c < columns; c++)
                 {
                     data[r, c] = Random.Shared.NextSingle() * (high - low) + low;
+                }
+            }
+        }
+
+        public static void Sigmoid(Matrix dst)
+        {
+            for (long r = 0; r < dst.rows; r++)
+            {
+                for (long c = 0; c < dst.columns; c++)
+                {
+                    dst.data[r, c] = NN.sigmoid(dst.data[r, c]);
                 }
             }
         }
@@ -107,7 +141,7 @@ namespace MachineLearning
             {
                 Console.WriteLine($"{name} = ");
             }
-            Console.WriteLine(ToString() + "\n");
+            Console.WriteLine(ToString());
         }
 
     }
